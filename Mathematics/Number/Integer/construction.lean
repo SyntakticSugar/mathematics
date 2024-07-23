@@ -219,6 +219,7 @@ theorem mul_congr :
       intro h₁ h₂
       unfold preInt_mul
       simp [h₁,h₂]
+      sorry
 
 
 def mul_aux (x y : preInt) : ℤ :=
