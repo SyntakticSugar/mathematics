@@ -26,3 +26,8 @@ theorem negneg :
       intro a
       apply Quotient.sound
       rfl
+
+
+/-
+  Theorems about addition on ℤ.
+-/

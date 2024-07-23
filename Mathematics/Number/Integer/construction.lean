@@ -71,8 +71,11 @@ def intSetoid : Setoid preInt :=
 
 def ℤ := Quotient intSetoid
 
-def fromNat (n : ℕ) : ℤ :=
-  Quotient.mk intSetoid (n, 0)
+def fromNat (n : Nat) : ℤ :=
+  Quotient.mk intSetoid ((nat_to_peano n), 0)
+
+instance : OfNat ℤ n where
+  ofNat := fromNat n
 
 /-
   On ℤ we want to write functions and prove properties of them.
@@ -102,9 +105,11 @@ def fromNat (n : ℕ) : ℤ :=
   Defining negation on ℤ
 -/
 
+-- 1. Function on preInt.
 def preInt_neg (x : preInt) : preInt :=
   (x.snd, x.fst)
 
+-- Function well defined with respect to preRel.
 theorem neg_congr :
   ∀ x y : preInt, preRel x y → preRel (preInt_neg x) (preInt_neg y) :=
     by
@@ -117,9 +122,11 @@ theorem neg_congr :
       rw [add_comm,add_comm x.snd]
       exact h₁
 
+-- Push function to image in quotient.
 def negAux (x : preInt) : ℤ :=
   Quotient.mk intSetoid (preInt_neg x)
 
+-- Prove this is well defined; simply calls previous proof.
 theorem negAux_congr :
   ∀ x y : preInt, preRel x y → negAux x = negAux y :=
     by
@@ -128,6 +135,7 @@ theorem negAux_congr :
       apply Quotient.sound
       exact neg_congr x y h₁
 
+-- Now this lifts to ℤ.
 def int_neg : ℤ → ℤ :=
   Quotient.lift negAux negAux_congr
 
@@ -137,3 +145,52 @@ prefix:100 "-" => int_neg
 /-
   Defining addition on ℤ
 -/
+
+-- Binary function on preInt.
+def preInt_add (x y : preInt) : preInt :=
+  (x.fst + y.fst, x.snd + y.snd)
+
+-- Prove this is well defined with respect to preRel.
+theorem add_congr :
+  ∀ x y z w : preInt, (preRel x y) → (preRel z w)
+    → (preRel (preInt_add x z) (preInt_add y w)) :=
+    by
+      intro x y z w
+      unfold preRel
+      intro h₁ h₂
+      unfold preInt_add
+      simp
+      rw [add_comm y.snd,add_assoc,<-add_assoc z.fst,
+          <-add_assoc x.fst,add_comm x.fst,add_assoc]
+      calc
+        z.fst + w.snd + (x.fst + y.snd) =
+            w.fst + z.snd + (x.fst + y.snd) := by rw [h₂]
+        _ = w.fst + z.snd + (y.fst + x.snd) := by rw [h₁]
+      rw [add_comm y.fst w.fst,
+          add_comm x.snd z.snd,
+          add_assoc w.fst y.fst,
+          <-add_assoc y.fst z.snd,
+          add_comm y.fst z.snd,
+          add_assoc z.snd y.fst,
+          <-add_assoc w.fst]
+
+-- Push image of add to the quotient.
+def add_aux (x y : preInt) : ℤ :=
+  Quotient.mk intSetoid (preInt_add x y)
+
+-- Prove this is well-defined.
+theorem addAux_congr :
+  ∀ x z y w : preInt, (preRel x y) → (preRel z w)
+  → (add_aux x z) = (add_aux y w) :=
+  by
+    intro x z y w
+    intro h₁ h₂
+    apply Quotient.sound
+    exact add_congr x y z w h₁ h₂
+
+-- Now lift the binary function to ℤ
+def int_sum : ℤ → ℤ → ℤ :=
+  Quotient.lift₂ add_aux addAux_congr
+
+instance : Add ℤ where
+  add := int_sum
