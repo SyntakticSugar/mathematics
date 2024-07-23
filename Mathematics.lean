@@ -2,5 +2,6 @@
 -- path from Mathematics... must be imported here.
 import Mathematics.LinkedList
 import Mathematics.Number.natural
-import Mathematics.Number.integer
+import Mathematics.Number.Integer.construction
+import Mathematics.Number.Integer.arithmetic
 import Mathematics.Logic.boolean
