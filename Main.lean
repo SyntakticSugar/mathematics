@@ -1,4 +1,2 @@
+-- This line is needed to import directory.
 import «Mathematics»
-
-def main : IO Unit :=
-  IO.println s!"Hello, {hello}!"
