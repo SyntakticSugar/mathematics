@@ -15,7 +15,7 @@ Theorems about these functions will go in:
   Mathematics.Integer.arithmetic
 -/
 
--- Integers require importing ℕ
+-- Integers require importing ℕ.
 import Mathematics.Number.natural
 open ℕ
 
@@ -82,8 +82,8 @@ instance : OfNat ℤ n where
 
   For example:
 
-    [ ] :: Negation (Unary)
-    [ ] :: Addition (Binary)
+    [X] :: Negation (Unary)
+    [X] :: Addition (Binary)
     [ ] :: Multiplication (Binary)
 
   For each of these functions we employ the following steps:
@@ -101,9 +101,9 @@ instance : OfNat ℤ n where
 
 -/
 
-/-
-  Defining negation on ℤ
--/
+/-----------------------------------------------------------
+                  Defining negation on ℤ
+-----------------------------------------------------------/
 
 -- 1. Function on preInt.
 def preInt_neg (x : preInt) : preInt :=
@@ -142,9 +142,9 @@ def int_neg : ℤ → ℤ :=
 -- Notation for negation
 prefix:100 "-" => int_neg
 
-/-
-  Defining addition on ℤ
--/
+/-----------------------------------------------------------
+                  Defining addition on ℤ
+-----------------------------------------------------------/
 
 -- Binary function on preInt.
 def preInt_add (x y : preInt) : preInt :=
@@ -194,3 +194,47 @@ def int_sum : ℤ → ℤ → ℤ :=
 
 instance : Add ℤ where
   add := int_sum
+
+/-----------------------------------------------------------
+                Defining multiplication on ℤ
+-----------------------------------------------------------/
+
+/-
+  Recall (a,b) is to be thought of as a - b
+  Therefore multiplication should be as follows:
+
+    (a,b)*(c,d) = (a-b)(c-d) = (ac + bd) - (ad + bc)
+
+  This is reflected in the following definition.
+-/
+def preInt_mul (x y : preInt) : preInt :=
+  ((x.fst * y.fst) + (x.snd * y.snd), (x.fst * y.snd) + (x.snd * y.fst))
+
+theorem mul_congr :
+  ∀ x y z w : preInt, (preRel x y) → (preRel z w)
+    → (preRel (preInt_mul x z) (preInt_mul y w)) :=
+    by
+      intro x y z w
+      unfold preRel
+      intro h₁ h₂
+      unfold preInt_mul
+      simp [h₁,h₂]
+
+
+def mul_aux (x y : preInt) : ℤ :=
+  Quotient.mk intSetoid (preInt_mul x y)
+
+theorem mulAux_congr :
+  ∀ x z y w : preInt, (preRel x y) → (preRel z w)
+  → (mul_aux x z) = (mul_aux y w) :=
+  by
+    intro x z y w
+    intro h₁ h₂
+    apply Quotient.sound
+    exact mul_congr x y z w h₁ h₂
+
+def int_mul : ℤ → ℤ → ℤ :=
+  Quotient.lift₂ mul_aux mulAux_congr
+
+instance : HMul ℤ ℤ ℤ where
+  hMul := int_mul
