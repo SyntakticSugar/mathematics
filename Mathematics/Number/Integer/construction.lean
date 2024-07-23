@@ -71,6 +71,9 @@ def intSetoid : Setoid preInt :=
 
 def ℤ := Quotient intSetoid
 
+def fromNat (n : ℕ) : ℤ :=
+  Quotient.mk intSetoid (n, 0)
+
 /-
   On ℤ we want to write functions and prove properties of them.
 
@@ -121,7 +124,6 @@ theorem negAux_congr :
   ∀ x y : preInt, preRel x y → negAux x = negAux y :=
     by
       intro x y
-      --unfold preRel
       intro h₁
       apply Quotient.sound
       exact neg_congr x y h₁
@@ -132,10 +134,6 @@ def int_neg : ℤ → ℤ :=
 -- Notation for negation
 prefix:100 "-" => int_neg
 
-theorem negneg :
-  ∀ x : ℤ, - (- x) = x :=
-    by
-      apply Quotient.ind
-      intro a
-      apply Quotient.sound
-      rfl
+/-
+  Defining addition on ℤ
+-/
