@@ -12,3 +12,17 @@ Maintainer  : Robert Culling <rhsculling@pm.com>
   need to refer to the implementation details of ℤ
   as a quotient of ℕ × ℕ.
 -/
+import Mathematics.Number.Integer.construction
+open ℕ
+
+/-
+  Theorems about negation on ℤ.
+-/
+
+theorem negneg :
+  ∀ x : ℤ, - (- x) = x :=
+    by
+      apply Quotient.ind
+      intro a
+      apply Quotient.sound
+      rfl
