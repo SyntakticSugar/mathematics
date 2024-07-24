@@ -14,9 +14,6 @@ Maintainer  : Robert Culling <rhsculling@pm.com>
   of the class of semirings.
 
 -/
--- Open the namespace for the nat(ural) numbers here.
--- namespace nat
-
 -- In the beginning, God created the integers...
 inductive ℕ where
   | zero : ℕ
@@ -254,5 +251,12 @@ theorem add_bothsides_left :
     intro h₁
     congr
 
--- Close the namespace for nat(ural numbers) here.
--- end nat
+/-
+  Instantiate algebraic classes so that the same name
+  for the analogous theorems across types can be used.
+
+  E.g. add_comm will be the name of a theorem for each
+  of the types ℕ ℤ ℚ ℝ ℂ etc. Each of these will be
+  instances of particularly type classes. This fact allows
+  for overloading theorem names.
+-/
