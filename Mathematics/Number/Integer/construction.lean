@@ -210,17 +210,28 @@ instance : Add ℤ where
 def preInt_mul (x y : preInt) : preInt :=
   ((x.fst * y.fst) + (x.snd * y.snd), (x.fst * y.snd) + (x.snd * y.fst))
 
+theorem mul_congr_sndfactor :
+  ∀ x y z : preInt, preRel y z → preRel (preInt_mul x y) (preInt_mul x z) :=
+    by
+      sorry
+
+theorem mul_congr_fstfactor :
+  ∀ x y z : preInt, preRel y z → preRel (preInt_mul y x) (preInt_mul z x) :=
+    by
+      sorry
+
 theorem mul_congr :
   ∀ x y z w : preInt, (preRel x y) → (preRel z w)
     → (preRel (preInt_mul x z) (preInt_mul y w)) :=
     by
       intro x y z w
-      unfold preRel
       intro h₁ h₂
-      unfold preInt_mul
-      simp [h₁,h₂]
-      sorry
-
+      have t₁ : preRel (preInt_mul x z) (preInt_mul x w) :=
+        mul_congr_sndfactor x z w h₂
+      have t₂ : preRel (preInt_mul x w) (preInt_mul y w) :=
+        mul_congr_fstfactor w x y h₁
+      exact preRel_trans (preInt_mul x z)
+                         (preInt_mul x w) (preInt_mul y w) t₁ t₂
 
 def mul_aux (x y : preInt) : ℤ :=
   Quotient.mk intSetoid (preInt_mul x y)
