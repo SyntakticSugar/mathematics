@@ -72,7 +72,7 @@ def intSetoid : Setoid preInt :=
 def ℤ := Quotient intSetoid
 
 def fromNat (n : Nat) : ℤ :=
-  Quotient.mk intSetoid ((nat_to_peano n), 0)
+  Quotient.mk intSetoid ((nat_to_peano n), (nat_to_peano 0))
 
 instance : OfNat ℤ n where
   ofNat := fromNat n
@@ -141,6 +141,13 @@ def int_neg : ℤ → ℤ :=
 
 -- Notation for negation
 prefix:100 "-" => int_neg
+
+theorem preRel_zero :
+  ∀ x : ℕ, preRel (x,x) (zero,zero) :=
+  by
+    intro x
+    simp [preRel]
+    rw [add_zero,zero_add]
 
 /-----------------------------------------------------------
                   Defining addition on ℤ
@@ -213,7 +220,17 @@ def preInt_mul (x y : preInt) : preInt :=
 theorem mul_congr_sndfactor :
   ∀ x y z : preInt, preRel y z → preRel (preInt_mul x y) (preInt_mul x z) :=
     by
+      intro x y z
+      intro h₁
+      unfold preRel at h₁
+      unfold preRel
+      unfold preInt_mul
+      simp
+      rw [add_assoc,<-add_assoc (x.snd*y.snd),
+          add_comm (x.snd*y.snd),<-add_assoc,<-add_assoc]
+      rw [<-mul_distl_add x.fst,add_assoc,<-mul_distl_add x.snd]
       sorry
+
 
 theorem mul_congr_fstfactor :
   ∀ x y z : preInt, preRel y z → preRel (preInt_mul y x) (preInt_mul z x) :=

@@ -41,12 +41,13 @@ theorem iadd_zero :
       rfl
 
 theorem zero_iadd :
-  ∀ x : ℤ, 0 + x = x :=
+  ∀ x : ℤ, (0 : ℤ) + x = x :=
     by
       apply Quotient.ind
       intro a
       apply Quotient.sound
-      sorry
+      simp [preInt_add, nat_to_peano,zero_add]
+      rfl
 
 theorem iadd_assoc :
   ∀ x y z : ℤ, (x + y) + z = x + (y + z) :=
@@ -58,7 +59,9 @@ theorem iadd_assoc :
       apply Quotient.ind
       intro z
       apply Quotient.sound
-      sorry
+      simp [preInt_add]
+      rw [add_assoc, add_assoc]
+      rfl
 
 theorem iadd_comm :
   ∀ x y : ℤ, x + y = y + x :=
@@ -67,7 +70,9 @@ theorem iadd_comm :
       intro x
       apply Quotient.ind
       intro y
-      sorry
+      apply Quotient.sound
+      simp [preInt_add,add_comm]
+      rfl
 
 theorem neg_inv :
   ∀ x : ℤ, x + (-x) = 0 :=
@@ -75,4 +80,5 @@ theorem neg_inv :
       apply Quotient.ind
       intro x
       apply Quotient.sound
-      sorry
+      simp [preInt_add,preInt_neg,nat_to_peano,add_comm]
+      exact preRel_zero (x.fst + x.snd)
