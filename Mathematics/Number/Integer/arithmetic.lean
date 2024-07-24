@@ -31,3 +31,48 @@ theorem negneg :
 /-
   Theorems about addition on ℤ.
 -/
+
+theorem iadd_zero :
+  ∀ x : ℤ, x + 0 = x :=
+    by
+      apply Quotient.ind
+      intro a
+      apply Quotient.sound
+      rfl
+
+theorem zero_iadd :
+  ∀ x : ℤ, 0 + x = x :=
+    by
+      apply Quotient.ind
+      intro a
+      apply Quotient.sound
+      sorry
+
+theorem iadd_assoc :
+  ∀ x y z : ℤ, (x + y) + z = x + (y + z) :=
+    by
+      apply Quotient.ind
+      intro x
+      apply Quotient.ind
+      intro y
+      apply Quotient.ind
+      intro z
+      apply Quotient.sound
+      sorry
+
+theorem iadd_comm :
+  ∀ x y : ℤ, x + y = y + x :=
+    by
+      apply Quotient.ind
+      intro x
+      apply Quotient.ind
+      intro y
+      sorry
+
+theorem neg_inv :
+  ∀ x : ℤ, x + (-x) = 0 :=
+    by
+      apply Quotient.ind
+      intro x
+      apply Quotient.sound
+      sorry

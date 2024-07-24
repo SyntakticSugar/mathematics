@@ -93,7 +93,7 @@ instance : OfNat ℤ n where
     3. Write a function from preInt (× preInt) to ℤ
     4. Use Quotient.liftₙ to lift this to ℤ
 
-  Kudos to Jason Rute for explaining this:
+  Thanks to Jason Rute for explaining this:
 
   proofassistants.stackexchange.com/questions/2663
 
