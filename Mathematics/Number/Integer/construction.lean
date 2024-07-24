@@ -19,7 +19,9 @@ Theorems about these functions will go in:
 import Mathematics.Number.natural
 open ℕ
 
+
 -- ℤ is defined as the quotient of the following type ...
+-- namespace int
 def preInt := ℕ × ℕ
 
 def nat_to_preInt (n : Nat) : preInt :=
@@ -267,3 +269,5 @@ def int_mul : ℤ → ℤ → ℤ :=
 
 instance : HMul ℤ ℤ ℤ where
   hMul := int_mul
+
+-- end int

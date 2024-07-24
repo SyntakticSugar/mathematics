@@ -14,6 +14,8 @@ Maintainer  : Robert Culling <rhsculling@pm.com>
   of the class of semirings.
 
 -/
+-- Open the namespace for the nat(ural) numbers here.
+-- namespace nat
 
 -- In the beginning, God created the integers...
 inductive ℕ where
@@ -251,3 +253,6 @@ theorem add_bothsides_left :
     intro x y z
     intro h₁
     congr
+
+-- Close the namespace for nat(ural numbers) here.
+-- end nat
