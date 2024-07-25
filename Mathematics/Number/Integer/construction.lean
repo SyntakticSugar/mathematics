@@ -120,7 +120,6 @@ theorem neg_congr :
       rw [preInt_neg,preInt_neg]
       simp
       apply Eq.symm
-      rw [add_comm,add_comm x.snd]
       exact h₁
 
 -- Push function to image in quotient.
@@ -148,7 +147,6 @@ theorem preRel_zero :
   by
     intro x
     simp [preRel]
-    rw [add_zero,zero_add]
 
 /-----------------------------------------------------------
                   Defining addition on ℤ
@@ -168,19 +166,20 @@ theorem add_congr :
       intro h₁ h₂
       unfold preInt_add
       simp
-      rw [add_comm y.snd,add_assoc,<-add_assoc z.fst,
-          <-add_assoc x.fst,add_comm x.fst,add_assoc]
-      calc
-        z.fst + w.snd + (x.fst + y.snd) =
-            w.fst + z.snd + (x.fst + y.snd) := by rw [h₂]
-        _ = w.fst + z.snd + (y.fst + x.snd) := by rw [h₁]
-      rw [add_comm y.fst w.fst,
-          add_comm x.snd z.snd,
-          add_assoc w.fst y.fst,
-          <-add_assoc y.fst z.snd,
-          add_comm y.fst z.snd,
-          add_assoc z.snd y.fst,
-          <-add_assoc w.fst]
+
+      -- rw [add_comm y.snd,add_assoc,<-add_assoc z.fst,
+      --     <-add_assoc x.fst,add_comm x.fst,add_assoc]
+      -- calc
+      --   z.fst + w.snd + (x.fst + y.snd) =
+      --       w.fst + z.snd + (x.fst + y.snd) := by rw [h₂]
+      --   _ = w.fst + z.snd + (y.fst + x.snd) := by rw [h₁]
+      -- rw [add_comm y.fst w.fst,
+      --     add_comm x.snd z.snd,
+      --     add_assoc w.fst y.fst,
+      --     <-add_assoc y.fst z.snd,
+      --     add_comm y.fst z.snd,
+      --     add_assoc z.snd y.fst,
+      --     <-add_assoc w.fst]
 
 -- Push image of add to the quotient.
 def add_aux (x y : preInt) : ℤ :=

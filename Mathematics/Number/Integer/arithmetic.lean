@@ -19,7 +19,7 @@ open ℕ
   Theorems about negation on ℤ.
 -/
 
-theorem negneg :
+@[simp] theorem negneg :
   ∀ x : ℤ, - (- x) = x :=
     by
       apply Quotient.ind
@@ -32,7 +32,7 @@ theorem negneg :
   Theorems about addition on ℤ.
 -/
 
-theorem iadd_zero :
+@[simp] theorem iadd_zero :
   ∀ x : ℤ, x + 0 = x :=
     by
       apply Quotient.ind
@@ -40,7 +40,7 @@ theorem iadd_zero :
       apply Quotient.sound
       rfl
 
-theorem zero_iadd :
+@[simp] theorem zero_iadd :
   ∀ x : ℤ, (0 : ℤ) + x = x :=
     by
       apply Quotient.ind
@@ -49,7 +49,7 @@ theorem zero_iadd :
       simp [preInt_add, nat_to_peano,zero_add]
       rfl
 
-theorem iadd_assoc :
+@[simp] theorem iadd_assoc :
   ∀ x y z : ℤ, (x + y) + z = x + (y + z) :=
     by
       apply Quotient.ind
@@ -63,7 +63,7 @@ theorem iadd_assoc :
       rw [add_assoc, add_assoc]
       rfl
 
-theorem iadd_comm :
+@[simp] theorem iadd_comm :
   ∀ x y : ℤ, x + y = y + x :=
     by
       apply Quotient.ind
@@ -74,7 +74,7 @@ theorem iadd_comm :
       simp [preInt_add,add_comm]
       rfl
 
-theorem neg_inv :
+@[simp] theorem neg_inv :
   ∀ x : ℤ, x + (-x) = 0 :=
     by
       apply Quotient.ind
