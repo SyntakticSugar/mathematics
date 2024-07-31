@@ -6,4 +6,5 @@ import Mathematics.Number.Integer.construction
 import Mathematics.Number.Integer.arithmetic
 import Mathematics.Algebra.semigroup
 import Mathematics.Algebra.monoid
+import Mathematics.Algebra.group
 import Mathematics.Logic.boolean
