@@ -4,4 +4,6 @@ import Mathematics.LinkedList
 import Mathematics.Number.natural
 import Mathematics.Number.Integer.construction
 import Mathematics.Number.Integer.arithmetic
+import Mathematics.Algebra.semigroup
+import Mathematics.Algebra.monoid
 import Mathematics.Logic.boolean
