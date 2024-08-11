@@ -78,19 +78,19 @@ instance : HMul ℕ ℕ ℕ where
   Theorems about addition on ℕ
 -/
 
-@[simp] theorem add_zero :
+ theorem add_zero :
   ∀ x : ℕ, x + zero = x :=
     by
       intro x
       rfl
 
-@[simp] theorem add_succ :
+ theorem add_succ :
   ∀ x y : ℕ, x + succ y = succ (x + y) :=
     by
       intro x y
       rfl
 
-@[simp] theorem zero_add :
+ theorem zero_add :
   ∀ x : ℕ, zero + x = x :=
     by
       intro x
@@ -98,7 +98,7 @@ instance : HMul ℕ ℕ ℕ where
       | zero      => rfl
       | succ x ih => rw [add_succ,ih]
 
-@[simp] theorem succ_add :
+ theorem succ_add :
   ∀ x y : ℕ, (succ x) + y = succ (x + y) :=
     by
       intro x y
@@ -106,7 +106,7 @@ instance : HMul ℕ ℕ ℕ where
       | zero      => rfl
       | succ y ih => rw [add_succ,add_succ,ih]
 
-@[simp] theorem add_assoc :
+ theorem add_assoc :
   ∀ x y z : ℕ, (x + y) + z = x + (y + z) :=
     by
       intro x y z
@@ -114,7 +114,7 @@ instance : HMul ℕ ℕ ℕ where
       | zero      => rw [add_zero,add_zero]
       | succ z ih => rw [add_succ,add_succ,add_succ,ih]
 
-@[simp] theorem add_comm :
+ theorem add_comm :
   ∀ x y : ℕ, x + y = y + x :=
   by
     intro x y
@@ -122,7 +122,7 @@ instance : HMul ℕ ℕ ℕ where
     | zero      => rw [zero_add,add_zero]
     | succ x ih => rw [add_succ,succ_add,ih]
 
-@[simp] theorem add_left_cancel :
+ theorem add_left_cancel :
   ∀ x y z : ℕ, x + y = x + z → y = z :=
   by
     intro x y z
@@ -136,7 +136,7 @@ instance : HMul ℕ ℕ ℕ where
                     succ_injective (x + y) (x + z) h
                    exact ih w₁
 
- @[simp] theorem add_right_cancel :
+  theorem add_right_cancel :
   ∀ x y z : ℕ, y + x = z + x → y = z :=
   by
     intro x y z
@@ -148,19 +148,19 @@ instance : HMul ℕ ℕ ℕ where
   Theorems about multiplication on ℕ
 -/
 
-@[simp] theorem mul_zero :
+ theorem mul_zero :
   ∀ x : ℕ, x * zero = zero :=
     by
       intro x
       rfl
 
-@[simp] theorem mul_succ :
+ theorem mul_succ :
   ∀ x y : ℕ, x * succ y = x * y + x :=
   by
     intro x y
     rfl
 
-@[simp] theorem zero_mul :
+ theorem zero_mul :
   ∀ x : ℕ, zero * x = zero :=
   by
     intro x
@@ -168,17 +168,17 @@ instance : HMul ℕ ℕ ℕ where
     | zero      => rfl
     | succ x ih => rw [mul_succ,ih,add_zero]
 
-@[simp] theorem succ_mul :
+ theorem succ_mul :
   ∀ x y : ℕ, (succ x) * y = (x * y) + y :=
   by
     intro x y
     induction y with
     | zero      => rw [mul_zero,mul_zero,add_zero]
-    | succ y ih =>rw  [add_succ,mul_succ,add_succ,
+    | succ y ih => rw [add_succ,mul_succ,add_succ,
                        mul_succ,ih,add_assoc,
                        add_comm y x,add_assoc]
 
-@[simp] theorem mul_distl_add :
+ theorem mul_distl_add :
   ∀ x y z : ℕ, x * (y + z) = (x * y) + (x * z) :=
   by
     intro x y z
@@ -188,7 +188,7 @@ instance : HMul ℕ ℕ ℕ where
                        add_assoc (x * y) y, <-add_assoc y (x *z),
                        add_comm y (x * z),add_assoc,add_assoc]
 
-@[simp] theorem mul_assoc :
+ theorem mul_assoc :
   ∀ x y z : ℕ, (x * y) * z = x * (y * z) :=
   by
     intro x y z
@@ -196,7 +196,7 @@ instance : HMul ℕ ℕ ℕ where
     | zero      => rw [mul_zero,mul_zero,mul_zero]
     | succ z ih => rw [mul_succ,mul_succ,ih,mul_distl_add]
 
-@[simp] theorem mul_comm :
+ theorem mul_comm :
   ∀ x y : ℕ, x * y = y * x :=
   by
     intro x y
@@ -204,7 +204,7 @@ instance : HMul ℕ ℕ ℕ where
     | zero      => rw [zero_mul,mul_zero]
     | succ x ih => rw [succ_mul,mul_succ,ih]
 
-@[simp] theorem mul_distr_add :
+ theorem mul_distr_add :
   ∀ x y z : ℕ, (y + z) * x = (y * x) + (z * x) :=
   by
     intro x y z

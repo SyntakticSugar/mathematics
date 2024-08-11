@@ -165,21 +165,19 @@ theorem add_congr :
       unfold preRel
       intro h₁ h₂
       unfold preInt_add
-      simp
-
-      -- rw [add_comm y.snd,add_assoc,<-add_assoc z.fst,
-      --     <-add_assoc x.fst,add_comm x.fst,add_assoc]
-      -- calc
-      --   z.fst + w.snd + (x.fst + y.snd) =
-      --       w.fst + z.snd + (x.fst + y.snd) := by rw [h₂]
-      --   _ = w.fst + z.snd + (y.fst + x.snd) := by rw [h₁]
-      -- rw [add_comm y.fst w.fst,
-      --     add_comm x.snd z.snd,
-      --     add_assoc w.fst y.fst,
-      --     <-add_assoc y.fst z.snd,
-      --     add_comm y.fst z.snd,
-      --     add_assoc z.snd y.fst,
-      --     <-add_assoc w.fst]
+      rw [add_comm y.snd,add_assoc,<-add_assoc z.fst,
+          <-add_assoc x.fst,add_comm x.fst,add_assoc]
+      calc
+        z.fst + w.snd + (x.fst + y.snd) =
+            w.fst + z.snd + (x.fst + y.snd) := by rw [h₂]
+        _ = w.fst + z.snd + (y.fst + x.snd) := by rw [h₁]
+      rw [add_comm y.fst w.fst,
+          add_comm x.snd z.snd,
+          add_assoc w.fst y.fst,
+          <-add_assoc y.fst z.snd,
+          add_comm y.fst z.snd,
+          add_assoc z.snd y.fst,
+          <-add_assoc w.fst]
 
 -- Push image of add to the quotient.
 def add_aux (x y : preInt) : ℤ :=
@@ -225,10 +223,10 @@ theorem mul_congr_sndfactor :
       unfold preRel at h₁
       unfold preRel
       unfold preInt_mul
-      simp
       rw [add_assoc,<-add_assoc (x.snd*y.snd),
           add_comm (x.snd*y.snd),<-add_assoc,<-add_assoc]
       rw [<-mul_distl_add x.fst,add_assoc,<-mul_distl_add x.snd]
+      simp
       sorry
 
 
