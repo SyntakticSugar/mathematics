@@ -119,8 +119,10 @@ theorem neg_congr :
       intro h₁
       rw [preInt_neg,preInt_neg]
       simp
+      rw [add_comm, add_comm y.snd]
       apply Eq.symm
       exact h₁
+
 
 -- Push function to image in quotient.
 def negAux (x : preInt) : ℤ :=
@@ -147,6 +149,7 @@ theorem preRel_zero :
   by
     intro x
     simp [preRel]
+    rw [add_zero,zero_add]
 
 /-----------------------------------------------------------
                   Defining addition on ℤ
@@ -223,17 +226,40 @@ theorem mul_congr_sndfactor :
       unfold preRel at h₁
       unfold preRel
       unfold preInt_mul
-      rw [add_assoc,<-add_assoc (x.snd*y.snd),
-          add_comm (x.snd*y.snd),<-add_assoc,<-add_assoc]
-      rw [<-mul_distl_add x.fst,add_assoc,<-mul_distl_add x.snd]
       simp
-      sorry
-
+      -- Factor the left.
+      rw [add_assoc,
+          <-add_assoc (x.snd*y.snd),
+          add_comm (x.snd*y.snd),
+          <-add_assoc,<-add_assoc,
+          <-mul_distl_add x.fst,
+          add_assoc,
+          <-mul_distl_add x.snd]
+      -- Factor the right.
+      rw [add_assoc (x.fst* z.fst),
+          <-add_assoc (x.snd*z.snd),
+          add_comm (x.snd*z.snd),
+          add_assoc (x.fst*y.snd),
+          <-mul_distl_add x.snd,
+          <-add_assoc (x.fst*z.fst),
+          <-mul_distl_add x.fst,
+          h₁]
+      have h₂ : y.snd + z.fst = z.snd + y.fst :=
+        by
+          rw [add_comm, add_comm z.snd]
+          apply Eq.symm
+          exact h₁
+      rw [h₂]
 
 theorem mul_congr_fstfactor :
   ∀ x y z : preInt, preRel y z → preRel (preInt_mul y x) (preInt_mul z x) :=
     by
-      sorry
+      intro x y z
+      intro h₁
+      unfold preRel at h₁
+      unfold preRel
+      unfold preInt_mul
+      simp
 
 theorem mul_congr :
   ∀ x y z w : preInt, (preRel x y) → (preRel z w)

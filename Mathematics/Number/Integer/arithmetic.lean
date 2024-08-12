@@ -27,7 +27,6 @@ open ℕ
       apply Quotient.sound
       rfl
 
-
 /-
   Theorems about addition on ℤ.
 -/
@@ -60,11 +59,8 @@ open ℕ
       intro z
       apply Quotient.sound
       simp [preInt_add]
-      rw [add_comm, add_assoc]
-      rw [add_comm x.snd (y.snd + z.snd), add_comm y.snd z.snd,
-          add_assoc z.snd, add_comm y.snd]
+      rw [add_assoc,add_assoc x.snd]
       rfl
-
 
  theorem iadd_comm :
   ∀ x y : ℤ, x + y = y + x :=
