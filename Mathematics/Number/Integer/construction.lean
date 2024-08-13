@@ -12,11 +12,11 @@ Negation, Addition and multiplication are defined
 and shown to descend to this quotient.
 
 Theorems about these functions will go in:
-  Mathematics.Integer.arithmetic
+  Mathematics.Number.Integer.arithmetic
 -/
 
 -- Integers require importing ℕ.
-import Mathematics.Number.natural
+import Mathematics.Number.Natural.arithmetic
 open ℕ
 
 
@@ -85,7 +85,7 @@ instance : OfNat ℤ n where
 
     [X] :: Negation (Unary)
     [X] :: Addition (Binary)
-    [ ] :: Multiplication (Binary)
+    [X] :: Multiplication (Binary)
 
   For each of these functions we employ the following steps:
 
@@ -122,7 +122,6 @@ theorem neg_congr :
       rw [add_comm, add_comm y.snd]
       apply Eq.symm
       exact h₁
-
 
 -- Push function to image in quotient.
 def negAux (x : preInt) : ℤ :=
