@@ -260,6 +260,25 @@ theorem mul_congr_fstfactor :
       unfold preRel
       unfold preInt_mul
       simp
+      -- Factor the left.
+      rw [add_assoc,
+          <-add_assoc (y.snd*x.snd),
+          add_comm (y.snd*x.snd + z.fst*x.snd),
+          <-mul_distr_add x.snd,
+          <-add_assoc,
+          <-mul_distr_add x.fst]
+      -- Factor the right.
+      rw [add_assoc,
+          <-add_assoc (z.snd*x.snd),
+          add_comm (z.snd*x.snd + y.fst*x.snd),
+          <-mul_distr_add x.snd,
+          <-add_assoc (z.fst*x.fst),
+          <-mul_distr_add x.fst]
+      have h₂ : z.snd + y.fst = y.snd + z.fst :=
+        by
+          rw [add_comm, add_comm y.snd]
+          exact h₁
+      rw [h₁, h₂]
 
 theorem mul_congr :
   ∀ x y z w : preInt, (preRel x y) → (preRel z w)
