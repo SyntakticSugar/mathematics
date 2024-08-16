@@ -23,6 +23,13 @@ inductive ℕ where
 
 open ℕ
 
+theorem succ_not_zero :
+  ∀ x : ℕ, succ x ≠ zero :=
+  by
+    intro a
+    intro h₁
+    injection h₁
+
 -- The following allows for the use of numeral
 -- representations of terms in ℕ.
 def nat_to_peano (n : Nat) : ℕ :=
@@ -46,8 +53,8 @@ theorem succ_injective :
   by
     intro m n
     intro t
-    -- injection t
-    exact congrArg pred t
+    injection t
+    --exact congrArg pred t
 
 theorem zero_neq_one :
   zero ≠ (succ zero) :=
