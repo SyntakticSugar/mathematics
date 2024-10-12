@@ -217,6 +217,15 @@ instance : Add ℤ where
 def preInt_mul (x y : preInt) : preInt :=
   ((x.fst * y.fst) + (x.snd * y.snd), (x.fst * y.snd) + (x.snd * y.fst))
 
+theorem preInt_mul_assoc :
+  ∀ x y z : preInt, preInt_mul (preInt_mul x y) z = preInt_mul x (preInt_mul y z) :=
+    by
+      intro a b c
+      simp [preInt_mul]
+      simp [mul_distr_add,mul_distl_add]
+      simp [mul_assoc]
+      sorry
+
 theorem mul_congr_sndfactor :
   ∀ x y z : preInt, preRel y z → preRel (preInt_mul x y) (preInt_mul x z) :=
     by

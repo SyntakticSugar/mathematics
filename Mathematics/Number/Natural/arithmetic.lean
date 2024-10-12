@@ -97,13 +97,19 @@ instance : HMul ℕ ℕ ℕ where
       intro x y
       rfl
 
+theorem zero_add_induction (t : zero + x = x) :
+   zero + succ x = succ x :=
+    by
+      rw [add_succ, t]
+
+
  theorem zero_add :
   ∀ x : ℕ, zero + x = x :=
     by
       intro x
       induction x with
       | zero      => rfl
-      | succ x ih => rw [add_succ,ih]
+      | succ x ih => exact (zero_add_induction ih)
 
  theorem succ_add :
   ∀ x y : ℕ, (succ x) + y = succ (x + y) :=
