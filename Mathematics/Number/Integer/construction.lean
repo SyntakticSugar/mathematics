@@ -224,7 +224,18 @@ theorem preInt_mul_assoc :
       simp [preInt_mul]
       simp [mul_distr_add,mul_distl_add]
       simp [mul_assoc]
-      sorry
+      -- Work on first components.
+      rw [add_assoc,
+          <-add_assoc (a.snd *(b.snd*c.fst)),
+          <-add_comm (a.fst * (b.snd * c.snd)),
+          add_assoc,
+          add_comm (a.snd * (b.snd * c.fst)) (a.snd * (b.fst * c.snd)),
+          <-add_assoc]
+      -- Work on second components.
+      rw [add_assoc (a.fst * (b.fst * c.snd)),
+          add_comm (a.snd *(b.snd * c.snd)),
+          add_assoc (a.fst * (b.snd * c.fst)),
+          <-add_assoc (a.fst * (b.fst * c.snd))]
 
 theorem mul_congr_sndfactor :
   ∀ x y z : preInt, preRel y z → preRel (preInt_mul x y) (preInt_mul x z) :=
