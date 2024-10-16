@@ -8,7 +8,7 @@ Maintainer  : Robert Culling <rhsculling@pm.com>
     Mathematics.Number.Integer.construction
 
   This module proves basic theorems in the arithmetic
-  of the integers. Once these a proved, one should not
+  of the integers. Once these are proved, one should not
   need to refer to the implementation details of ℤ
   as a quotient of ℕ × ℕ.
 -/
@@ -157,4 +157,19 @@ theorem imul_assoc :
           add_comm (a.snd *(b.snd * c.snd)),
           add_assoc (a.fst * (b.snd * c.fst)),
           <-add_assoc (a.fst * (b.fst * c.snd))]
+      rfl
+
+theorem imul_comm :
+  ∀ x y : ℤ, x * y = y * x :=
+    by
+      -- This proof was almost entirely given by
+      -- GitHub Copilot.
+      apply Quotient.ind
+      intro a
+      apply Quotient.ind
+      intro b
+      apply Quotient.sound
+      simp [preInt_mul]
+      simp [mul_comm]
+      rw [add_comm (a.fst * b.snd) (b.fst * a.snd)]
       rfl
