@@ -11,7 +11,13 @@ Maintainer  : Robert Culling <rhsculling@pm.com>
 import Mathematics.Algebra.prelude
 import Mathematics.Algebra.semigroup
 
+open hasOne
+open hasZero
+
 open Semigroup
+open AddSemigroup
+open CommSemigroup
+open CommAddSemigroup
 
 -- Monoids are semigroups with an identity.
 class Monoid (α : Type u) extends hasOne α, Semigroup α where

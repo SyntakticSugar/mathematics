@@ -18,8 +18,14 @@ Theorems about these functions will go in:
 -- Integers require importing ℕ.
 import Mathematics.Number.Natural.arithmetic
 import Mathematics.Algebra.semiring
-open Semiring
 open ℕ
+
+open Semiring
+open AddMonoid
+open Semigroup
+open AddSemigroup
+open CommAddSemigroup
+
 
 -- ℤ is defined as the quotient of the following type ...
 def preInt := ℕ × ℕ
@@ -59,7 +65,7 @@ theorem preRel_trans :
     rw [<-add_assoc x.snd, add_comm x.snd] at h₁
     rw [add_comm y.snd,add_assoc x.fst, add_comm y.snd,<-add_assoc] at h₁
     -- have t₃ : x.fst + z.snd = z.fst + x.snd :=
-    exact add_right_cancel y.snd (x.fst + z.snd) (z.fst + x.snd) h₁
+    exact nadd_right_cancel y.snd (x.fst + z.snd) (z.fst + x.snd) h₁
 
 -- Seems to be some type inference error that @-prefix bypasses.
 instance preRel_equiv : Equivalence preRel :=
@@ -149,7 +155,7 @@ theorem preRel_zero :
   by
     intro x
     simp [preRel]
-    rw [add_zero,zero_add]
+    rw [nadd_zero,zero_nadd]
 
 /-----------------------------------------------------------
                   Defining addition on ℤ

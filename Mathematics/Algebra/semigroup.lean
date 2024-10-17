@@ -30,3 +30,5 @@ class AddSemigroup (α : Type u) extends Add α where
 
 class CommAddSemigroup (α : Type u) extends AddSemigroup α where
   add_comm : ∀ a b : α, a + b = b + a
+
+#check CommAddSemigroup.add_comm

@@ -11,6 +11,9 @@ Maintainer  : Robert Culling <rhsculling@pm.com>
 import Mathematics.Algebra.monoid
 
 open Monoid
+open CommMonoid
+open AddMonoid
+open CommAddMonoid
 
 class Group (α : Type u) extends Monoid α where
   inv : α → α

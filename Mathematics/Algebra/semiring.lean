@@ -13,6 +13,11 @@ Maintainer  : Robert Culling <rhsculling@pm.com>
 
 import Mathematics.Algebra.monoid
 
+open Monoid
+open CommMonoid
+open AddMonoid
+open CommAddMonoid
+
 class Semiring (α : Type u) extends Monoid α, CommAddMonoid α where
   mul_distl_add : ∀ x y z : α, x * (y + z) = x * y + x * z
   mul_distr_add : ∀ x y z : α, (y + z) * x = y * x + z * x
