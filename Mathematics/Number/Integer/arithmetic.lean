@@ -13,6 +13,7 @@ Maintainer  : Robert Culling <rhsculling@pm.com>
   as a quotient of ℕ × ℕ.
 -/
 import Mathematics.Number.Integer.construction
+import Mathematics.Algebra.semiring
 open ℕ
 
 /-
@@ -45,7 +46,7 @@ open ℕ
       apply Quotient.ind
       intro a
       apply Quotient.sound
-      simp [preInt_add, nat_to_peano,zero_add]
+      simp [preInt_add,nat_to_peano,zero_add]
       rfl
 
  theorem iadd_assoc :
@@ -171,5 +172,58 @@ theorem imul_comm :
       apply Quotient.sound
       simp [preInt_mul]
       simp [mul_comm]
-      rw [add_comm (a.fst * b.snd) (b.fst * a.snd)]
+      rw [add_comm (a.fst * b.snd) (b.fst * a.snd)] -- it got this step wrong
       rfl
+
+ theorem imul_distl_iadd :
+    ∀ x y z : ℤ, x * (y + z) = (x * y) + (x * z) :=
+      by
+        apply Quotient.ind
+        intro a
+        apply Quotient.ind
+        intro b
+        apply Quotient.ind
+        intro c
+        apply Quotient.sound
+        simp [preInt_mul, preInt_add]
+        -- First component.
+        rw [mul_distl_add, mul_distl_add]
+        rw [add_assoc]
+        rw [<-add_assoc (a.fst*c.fst)]
+        rw [add_comm (a.fst*c.fst)]
+        rw [add_assoc (a.snd*b.snd)]
+        rw [<-add_assoc]
+        -- Second component
+        rw [mul_distl_add]
+        rw [mul_distl_add]
+        rw [add_assoc (a.fst*b.snd)]
+        rw [<-add_assoc (a.fst*c.snd)]
+        rw [add_comm (a.fst*c.snd)]
+        rw [add_assoc (a.snd*b.fst)]
+        rw [<-add_assoc (a.fst*b.snd)]
+        rfl
+
+-- Now enough of the basic properties of ℤ are proved, one shouldn't
+-- have to descend all the way to the quotient space representation to
+-- prove theorems. For example, right distributivity follows from
+-- left distributivity and the commutativity of multiplication.
+ theorem imul_distr_iadd :
+    ∀ x y z : ℤ, (y + z) * x = (y * x) + (z * x) :=
+      by
+        intro a b c
+        simp [imul_comm]
+        apply imul_distl_iadd
+
+instance : CommSemiring ℤ where
+  one           := fromNat 1
+  zero          := fromNat 0
+  add_assoc     := iadd_assoc
+  add_comm      := iadd_comm
+  add_zero      := iadd_zero
+  zero_add      := zero_iadd
+  mul_one       := imul_one
+  one_mul       := one_imul
+  mul_assoc     := imul_assoc
+  mul_distl_add := imul_distl_iadd
+  mul_distr_add := imul_distr_iadd
+  mul_comm      := imul_comm

@@ -4,8 +4,8 @@ Description : Formal developement of the natural numbers.
 Maintainer  : Robert Culling <rhsculling@pm.com>
 
   This module develops the formal theory of the natural
-  numbers following the Peano axioms. Although what are
-  considered "axioms" typically are now theorems derived
+  numbers following the Peano axioms. Although what we
+  consider "axioms" typically are now theorems derived
   from the foundational type theory. Specifically from
   the structure of inductive types.
 
@@ -14,6 +14,9 @@ Maintainer  : Robert Culling <rhsculling@pm.com>
   of the class of semirings.
 
 -/
+
+import Mathematics.Algebra.semiring
+
 -- In the beginning, God created the integers...
 inductive ℕ where
   | zero : ℕ
@@ -85,13 +88,13 @@ instance : HMul ℕ ℕ ℕ where
   Theorems about addition on ℕ
 -/
 
- theorem add_zero :
+ theorem nadd_zero :
   ∀ x : ℕ, x + zero = x :=
     by
       intro x
       rfl
 
- theorem add_succ :
+ theorem nadd_succ :
   ∀ x y : ℕ, x + succ y = succ (x + y) :=
     by
       intro x y
@@ -100,10 +103,9 @@ instance : HMul ℕ ℕ ℕ where
 theorem zero_add_induction (t : zero + x = x) :
    zero + succ x = succ x :=
     by
-      rw [add_succ, t]
+      rw [nadd_succ, t]
 
-
- theorem zero_add :
+ theorem zero_nadd :
   ∀ x : ℕ, zero + x = x :=
     by
       intro x
@@ -111,123 +113,136 @@ theorem zero_add_induction (t : zero + x = x) :
       | zero      => rfl
       | succ x ih => exact (zero_add_induction ih)
 
- theorem succ_add :
+ theorem succ_nadd :
   ∀ x y : ℕ, (succ x) + y = succ (x + y) :=
     by
       intro x y
       induction y with
       | zero      => rfl
-      | succ y ih => rw [add_succ,add_succ,ih]
+      | succ y ih => rw [nadd_succ,nadd_succ,ih]
 
- theorem add_assoc :
+ theorem nadd_assoc :
   ∀ x y z : ℕ, (x + y) + z = x + (y + z) :=
     by
       intro x y z
       induction z with
-      | zero      => rw [add_zero,add_zero]
-      | succ z ih => rw [add_succ,add_succ,add_succ,ih]
+      | zero      => rw [nadd_zero,nadd_zero]
+      | succ z ih => rw [nadd_succ,nadd_succ,nadd_succ,ih]
 
- theorem add_comm :
+ theorem nadd_comm :
   ∀ x y : ℕ, x + y = y + x :=
   by
     intro x y
     induction x with
-    | zero      => rw [zero_add,add_zero]
-    | succ x ih => rw [add_succ,succ_add,ih]
+    | zero      => rw [zero_nadd,nadd_zero]
+    | succ x ih => rw [nadd_succ,succ_nadd,ih]
 
- theorem add_left_cancel :
+ theorem nadd_left_cancel :
   ∀ x y z : ℕ, x + y = x + z → y = z :=
   by
     intro x y z
     induction x with
-    | zero      => rw [zero_add,zero_add]
+    | zero      => rw [zero_nadd,zero_nadd]
                    intro t
                    exact t
-    | succ x ih => rw [succ_add,succ_add]
+    | succ x ih => rw [succ_nadd,succ_nadd]
                    intro h
                    have w₁ : x + y = x + z :=
                     succ_injective (x + y) (x + z) h
                    exact ih w₁
 
-  theorem add_right_cancel :
+  theorem nadd_right_cancel :
   ∀ x y z : ℕ, y + x = z + x → y = z :=
   by
     intro x y z
     intro t₁
-    rw [add_comm y x, add_comm z x] at t₁
-    exact add_left_cancel x y z t₁
+    rw [nadd_comm y x, nadd_comm z x] at t₁
+    exact nadd_left_cancel x y z t₁
 
 /-
   Theorems about multiplication on ℕ
 -/
 
- theorem mul_zero :
+ theorem nmul_zero :
   ∀ x : ℕ, x * zero = zero :=
     by
       intro x
       rfl
 
- theorem mul_succ :
+ theorem nmul_succ :
   ∀ x y : ℕ, x * succ y = x * y + x :=
   by
     intro x y
     rfl
 
- theorem zero_mul :
+ theorem zero_nmul :
   ∀ x : ℕ, zero * x = zero :=
   by
     intro x
     induction x with
     | zero      => rfl
-    | succ x ih => rw [mul_succ,ih,add_zero]
+    | succ x ih => rw [nmul_succ,ih,nadd_zero]
 
- theorem succ_mul :
+ theorem succ_nmul :
   ∀ x y : ℕ, (succ x) * y = (x * y) + y :=
   by
     intro x y
     induction y with
-    | zero      => rw [mul_zero,mul_zero,add_zero]
-    | succ y ih => rw [add_succ,mul_succ,add_succ,
-                       mul_succ,ih,add_assoc,
-                       add_comm y x,add_assoc]
+    | zero      => rw [nmul_zero,nmul_zero,nadd_zero]
+    | succ y ih => rw [nadd_succ,nmul_succ,nadd_succ,
+                       nmul_succ,ih,nadd_assoc,
+                       nadd_comm y x,nadd_assoc]
 
- theorem mul_distl_add :
+theorem nmul_one :
+  ∀ x : ℕ, x * (succ zero) = x :=
+    by
+      intro a
+      rw [nmul_succ,nmul_zero,zero_nadd]
+
+ theorem nmul_distl_nadd :
   ∀ x y z : ℕ, x * (y + z) = (x * y) + (x * z) :=
   by
     intro x y z
     induction x with
-    | zero      => rw [zero_mul,zero_mul,zero_mul,zero_add]
-    | succ x ih => rw [succ_mul,succ_mul,succ_mul,ih,
-                       add_assoc (x * y) y, <-add_assoc y (x *z),
-                       add_comm y (x * z),add_assoc,add_assoc]
+    | zero      => rw [zero_nmul,zero_nmul,zero_nmul,zero_nadd]
+    | succ x ih => rw [succ_nmul,succ_nmul,succ_nmul,ih,
+                       nadd_assoc (x * y) y, <-nadd_assoc y (x *z),
+                       nadd_comm y (x * z),nadd_assoc,nadd_assoc]
 
- theorem mul_assoc :
+ theorem nmul_assoc :
   ∀ x y z : ℕ, (x * y) * z = x * (y * z) :=
   by
     intro x y z
     induction z with
-    | zero      => rw [mul_zero,mul_zero,mul_zero]
-    | succ z ih => rw [mul_succ,mul_succ,ih,mul_distl_add]
+    | zero      => rw [nmul_zero,nmul_zero,nmul_zero]
+    | succ z ih => rw [nmul_succ,nmul_succ,ih,nmul_distl_nadd]
 
- theorem mul_comm :
+ theorem nmul_comm :
   ∀ x y : ℕ, x * y = y * x :=
   by
     intro x y
     induction x with
-    | zero      => rw [zero_mul,mul_zero]
-    | succ x ih => rw [succ_mul,mul_succ,ih]
+    | zero      => rw [zero_nmul,nmul_zero]
+    | succ x ih => rw [succ_nmul,nmul_succ,ih]
 
- theorem mul_distr_add :
+theorem one_nmul :
+  ∀ x : ℕ, (succ zero) * x = x :=
+    by
+      intro a
+      rw [nmul_comm]
+      apply nmul_one
+
+ theorem nmul_distr_nadd :
   ∀ x y z : ℕ, (y + z) * x = (y * x) + (z * x) :=
   by
     intro x y z
-    rw [mul_comm,mul_comm y x, mul_comm z x,mul_distl_add]
+    rw [nmul_comm,nmul_comm y x, nmul_comm z x,nmul_distl_nadd]
 
 /-
   Lemma for equational reasoning in ℕ.
 -/
 
-theorem add_summands_cancel_left :
+theorem nadd_summands_cancel_left :
   ∀ x y : ℕ, x + y = x → y = zero :=
     by
       intro x y
@@ -235,18 +250,18 @@ theorem add_summands_cancel_left :
       have t₁ : x + y = x + zero :=
         calc
           x + y = x         := h₁
-          _     = x + zero  := by rw [add_zero]
-      exact add_left_cancel x y zero t₁
+          _     = x + zero  := by rw [nadd_zero]
+      exact nadd_left_cancel x y zero t₁
 
-theorem add_summands_cancel_right :
+theorem nadd_summands_cancel_right :
   ∀ x y : ℕ, y + x = x → y = zero :=
     by
       intro x y
       intro h₁
-      rw [add_comm] at h₁
-      exact add_summands_cancel_left x y h₁
+      rw [nadd_comm] at h₁
+      exact nadd_summands_cancel_left x y h₁
 
-theorem add_bothsides_right :
+theorem nadd_bothsides_right :
   ∀ x y z : ℕ, x = y → x + z = y + z :=
   by
     intro x y z
@@ -273,3 +288,17 @@ theorem add_bothsides_left :
   instances of particularly type classes. This fact allows
   for overloading theorem names.
 -/
+
+instance : CommSemiring ℕ where
+  one := succ zero
+  zero := zero
+  add_assoc := nadd_assoc
+  add_comm := nadd_comm
+  add_zero := nadd_zero
+  zero_add := zero_nadd
+  mul_one := nmul_one
+  one_mul := one_nmul
+  mul_assoc := nmul_assoc
+  mul_distl_add := nmul_distl_nadd
+  mul_distr_add := nmul_distr_nadd
+  mul_comm := nmul_comm

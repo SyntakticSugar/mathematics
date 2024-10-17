@@ -8,24 +8,21 @@ Maintainer  : Robert Culling <rhsculling@pm.com>
 
 -/
 
+import Mathematics.Algebra.prelude
 import Mathematics.Algebra.semigroup
 
 open Semigroup
 
-class Monoid (α : Type u) extends Semigroup α where
-  one : α
+-- Monoids are semigroups with an identity.
+class Monoid (α : Type u) extends hasOne α, Semigroup α where
   one_mul : ∀ a : α,  one * a = a
   mul_one : ∀ a : α,  a * one = a
 
-class CommMonoid (α : Type u) extends CommSemigroup α where
-  one : α
-  one_mul : ∀ a : α,  one * a = a
+class CommMonoid (α : Type u) extends Monoid α, CommSemigroup α
 
-class AddMonoid (α : Type u) extends AddSemigroup α where
-  zero : α
+-- Additive monoids are additive semigroups with an identity.
+class AddMonoid (α : Type u) extends hasZero α, AddSemigroup α where
   zero_add : ∀ a : α,  zero + a = a
   add_zero : ∀ a : α,  a + zero = a
 
-class CommAddMonoid (α : Type u) extends CommAddSemigroup α where
-  zero : α
-  zero_add : ∀ a : α,  zero + a = a
+class CommAddMonoid (α : Type u) extends AddMonoid α, CommAddSemigroup α

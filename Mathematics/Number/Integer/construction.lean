@@ -17,8 +17,9 @@ Theorems about these functions will go in:
 
 -- Integers require importing ℕ.
 import Mathematics.Number.Natural.arithmetic
+import Mathematics.Algebra.semiring
+open Semiring
 open ℕ
-
 
 -- ℤ is defined as the quotient of the following type ...
 def preInt := ℕ × ℕ

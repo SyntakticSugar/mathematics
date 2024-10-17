@@ -7,4 +7,6 @@ import Mathematics.Number.Integer.arithmetic
 import Mathematics.Algebra.semigroup
 import Mathematics.Algebra.monoid
 import Mathematics.Algebra.group
+import Mathematics.Algebra.prelude
+import Mathematics.Algebra.semiring
 import Mathematics.Logic.boolean
