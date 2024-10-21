@@ -50,7 +50,8 @@ theorem length_append (as bs : LinkedList α) :
   by
     induction as with
     | nil           => rw [nil_append,length,Nat.zero_add]
-    | cons a ass ih => rw [cons_append,length_cons,ih,length,Nat.add_assoc]
+    | cons a ass ih => rw [cons_append,length_cons,ih,length,
+                            Nat.add_assoc]
 
 -- Reversing a list.
 def snoc (as : LinkedList α) (a : α) : LinkedList α :=
