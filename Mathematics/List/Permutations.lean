@@ -65,3 +65,35 @@ theorem permutation_transitive : ∀ l l' l'' : List A,
     by
       intro x y z t₁ t₂
       exact perm_trans t₁ t₂
+
+theorem permutation_append : ∀ l l' tl : List A,
+  Permutation l l' → Permutation (l ++ tl) (l' ++ tl) :=
+    by
+      intro x y t
+      intro h₁
+      induction h₁ with
+      | nil_perm                => exact permutation_reflexive ([] ++ t)
+      | perm_cons a _ ih        => exact perm_cons a ih
+      | perm_swap a b l         => exact perm_swap a b (l ++ t)
+      | perm_trans _ _ ih₁ ih₂  => exact perm_trans ih₁ ih₂
+
+theorem permutation_prepend : ∀ l l' hd : List A,
+  Permutation l l' → Permutation (hd ++ l) (hd ++ l') :=
+    by
+      intro x y hd
+      intro h₁
+      sorry
+
+theorem permutation_append_singleton : ∀ l : List A, ∀ a : A,
+  Permutation ([a] ++ l) (a :: l) :=
+  by
+    intro l a
+    sorry
+
+theorem permutation_append_cong : ∀ l l' m m' : List A,
+  Permutation l l' → Permutation m m'
+    → Permutation (l ++ m) (l' ++ m') :=
+    by
+      intro l l' m m'
+      intro h₁ h₂
+      sorry
