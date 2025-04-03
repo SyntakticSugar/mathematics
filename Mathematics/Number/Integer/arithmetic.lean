@@ -12,8 +12,11 @@ Maintainer  : Robert Culling <rhsculling@pm.com>
   need to refer to the implementation details of ℤ
   as a quotient of ℕ × ℕ.
 -/
+import Mathematics.Number.Natural.arithmetic
 import Mathematics.Number.Integer.construction
 import Mathematics.Algebra.semiring
+
+open Natural
 open ℕ
 
 /-

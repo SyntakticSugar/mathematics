@@ -17,6 +17,8 @@ Maintainer  : Robert Culling <rhsculling@pm.com>
 
 import Mathematics.Algebra.semiring
 
+namespace Natural
+
 -- In the beginning, God created the integers...
 inductive ℕ where
   | zero : ℕ
@@ -302,3 +304,5 @@ instance : CommSemiring ℕ where
   mul_distl_add := nmul_distl_nadd
   mul_distr_add := nmul_distr_nadd
   mul_comm := nmul_comm
+
+  end Natural

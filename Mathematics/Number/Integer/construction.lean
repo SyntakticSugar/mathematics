@@ -18,6 +18,7 @@ Theorems about these functions will go in:
 -- Integers require importing ℕ.
 import Mathematics.Number.Natural.arithmetic
 import Mathematics.Algebra.semiring
+open Natural
 open ℕ
 
 open Semiring
